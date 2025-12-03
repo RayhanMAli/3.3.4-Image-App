@@ -1,4 +1,5 @@
 /*
+/*
   ImageApp: 
  */
 import java.awt.Color;
@@ -22,18 +23,58 @@ public class ImageApp
     Pixel[][] recoloredPixels = recoloredImg.getPixels2D();
 
     /* to be implemented */
+    for(Pixel[] pixel:recoloredPixels){
+        for(Pixel p: pixel){
+            Color c = p.getColor();
+            int red = c.getRed();
+            int green = c.getGreen();
+            int blue = c.getBlue();
+            red +=50;
+          
+            p.setColor(new Color(red));
+        }
+    }
+    recoloredImg.explore();
 
     // Image #2 Using the original image and pixels, create a photographic negative of the image
     Picture negImg = new Picture(pictureFile);
     Pixel[][] negPixels = negImg.getPixels2D();
 
     /* to be implemented */
+    for (Pixel[] pixel: negPixels){
+       for (Pixel p: pixel){
+            int red = p.getRed();
+            int green = p.getGreen();
+            int blue = p.getBlue();
+            p.setRed(225-red);
+            p.setGreen(225-green);
+            p.setBlue(225-blue);
+
+        }
+    }
+    //negImg.explore();
 
     // Image #3 Using the original image and pixels, create a grayscale version of the image
     Picture grayscaleImg = new Picture(pictureFile);
     Pixel[][] grayscalePixels = grayscaleImg.getPixels2D();
 
     /* to be implemented */
+    for (Pixel [] pixel: grayscalePixels){
+      for (Pixel p: pixel){
+        int red = p.getRed();
+        int green = p.getGreen();
+        int blue = p.getBlue();
+
+        int avg = (red+green+blue)/3;
+
+        p.setRed(avg);
+        p.setGreen(avg);
+        p.setBlue(avg);
+        
+      }
+    }
+
+    //grayscaleImg.explore();
 
     // Image #4 Using the original image and pixels, rotate it 180 degrees
     Picture upsidedownImage = new Picture(pictureFile);
@@ -55,9 +96,11 @@ public class ImageApp
 
 
     // Final Image: Add a small image to a larger one
+    /* 1. create new image object using a dif image from lib 2
+       2.  */
 
     /* to be implemented */
-
+    
 
 
 

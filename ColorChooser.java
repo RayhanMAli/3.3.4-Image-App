@@ -36,8 +36,10 @@ public class ColorChooser {
     * Main method for testing the ColorChooser
     */
    public static void main(String[] args) {
+     
       Color pickedColor = ColorChooser.pickAColor();
       System.out.println(pickedColor);
+
    }
 
 }
