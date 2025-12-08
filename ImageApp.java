@@ -52,66 +52,66 @@ public class ImageApp {
         System.out.println("\nImage #3: Grayscale");
         grayscaleImg.explore();
 
-        // --- Image #4: Rotate 180 ---
+        // --- Image #4: Rotate 180 using Matrix ---
         Picture rot180Img = new Picture(origHeight, origWidth);
         Pixel[][] rot180P = rot180Img.getPixels2D();
+        Matrix2by2 mat180 = Matrix2by2.get180FlipMatrix();
         
         for (int r = 0; r < origHeight; r++) {
             for (int c = 0; c < origWidth; c++) {
-                int newR = origHeight - 1 - r;
-                int newC = origWidth - 1 - c;
+                // Create vector for current position
+                Vector1by2 v = new Vector1by2(c, r);
+                // Apply 180 rotation matrix
+                Vector1by2 rotated = Matrix2by2.multiply(v, mat180);
+                // Translate to positive coordinates
+                int newR = origHeight - 1 + rotated.getYInt();
+                int newC = origWidth - 1 + rotated.getXInt();
                 rot180P[newR][newC].setColor(origP[r][c].getColor());
             }
         }
-        System.out.println("\nImage #4: Rotated 180°");
+        System.out.println("\nImage #4: Rotated 180° (using matrix)");
         rot180Img.explore();
 
-        // --- Image #5: Rotate 90 CCW (Counter-Clockwise) ---
+        // --- Image #5: Rotate 90 CCW using Matrix ---
         Picture rot90CCW = new Picture(origWidth, origHeight);
         Pixel[][] ccwP = rot90CCW.getPixels2D();
+        Matrix2by2 matCCW = Matrix2by2.getInv90CWMatrix(); // This rotates CCW
         
         for (int r = 0; r < origHeight; r++) {
             for (int c = 0; c < origWidth; c++) {
-                int finalR = origWidth - 1 - c;
-                int finalC = r;
-                ccwP[finalR][finalC].setColor(origP[r][c].getColor());
+                // Create vector for current position
+                Vector1by2 v = new Vector1by2(c, r);
+                // Apply 90 CCW matrix
+                Vector1by2 rotated = Matrix2by2.multiply(v, matCCW);
+                // Translate: for CCW, x becomes positive, y stays
+                int newR = origWidth - 1 + rotated.getXInt();
+                int newC = rotated.getYInt();
+                ccwP[newR][newC].setColor(origP[r][c].getColor());
             }
         }
-        System.out.println("\nImage #5: Rotated 90° Counter-Clockwise");
+        System.out.println("\nImage #5: Rotated 90° Counter-Clockwise (using matrix)");
         rot90CCW.explore();
 
-        // --- Image #6: Rotate 90 CW (Clockwise) ---
+        // --- Image #6: Rotate 90 CW using Matrix ---
         Picture rot90CW = new Picture(origWidth, origHeight);
         Pixel[][] cwP = rot90CW.getPixels2D();
-
+        Matrix2by2 matCW = Matrix2by2.getInv90CCWMatrix(); // This rotates CW
+        
         for (int r = 0; r < origHeight; r++) {
             for (int c = 0; c < origWidth; c++) {
-                int finalR = c;
-                int finalC = origHeight - 1 - r;
-                cwP[finalR][finalC].setColor(origP[r][c].getColor());
+                // Create vector for current position
+                Vector1by2 v = new Vector1by2(c, r);
+                // Apply 90 CW matrix
+                Vector1by2 rotated = Matrix2by2.multiply(v, matCW);
+                // Translate: for CW, x stays, y becomes positive
+                int newR = rotated.getXInt();
+                int newC = origHeight - 1 + rotated.getYInt();
+                cwP[newR][newC].setColor(origP[r][c].getColor());
             }
         }
-        System.out.println("\nImage #6: Rotated 90° Clockwise");
+        System.out.println("\nImage #6: Rotated 90° Clockwise (using matrix)");
         rot90CW.explore();
 
         System.out.println("\n✓ All image transformations complete!");
-
-
-        
-    // Final Image: Add a small image to a larger one
-    /* 1. create new image object using a dif image from lib 2
-       2.  */
-
-    /* to be implemented */
-    
-
-
-
-    // for testing  2D algorithms
-    int[][] test1 = { { 1, 2, 3, 4 },
-        { 5, 6, 7, 8 },
-        { 9, 10, 11, 12 },
-        { 13, 14, 15, 16 } };
-    int[][] test2 = new int[4][4];
     }
 }
