@@ -1,100 +1,103 @@
-/*
-/*
-  ImageApp: 
- */
 import java.awt.Color;
 
-public class ImageApp
-{
-  public static void main(String[] args)
-  {
+public class ImageApp {
 
-    // use any file from the lib folder
-    String pictureFile = "lib/beach.jpg";
+    public static void main(String[] args) {
 
-    // Get an image, get 2d array of pixels, show a color of a pixel, and display the image
-    Picture origImg = new Picture(pictureFile);
-    Pixel[][] origPixels = origImg.getPixels2D();
-    System.out.println(origPixels[0][0].getColor());
-    origImg.explore();
-
-    // Image #1 Using the original image and pixels, recolor an image by changing the RGB color of each Pixel
-    Picture recoloredImg = new Picture(pictureFile);
-    Pixel[][] recoloredPixels = recoloredImg.getPixels2D();
-
-    /* to be implemented */
-    for(Pixel[] pixel:recoloredPixels){
-        for(Pixel p: pixel){
-            Color c = p.getColor();
-            int red = c.getRed();
-            int green = c.getGreen();
-            int blue = c.getBlue();
-            red +=50;
-          
-            p.setColor(new Color(red));
-        }
-    }
-    recoloredImg.explore();
-
-    // Image #2 Using the original image and pixels, create a photographic negative of the image
-    Picture negImg = new Picture(pictureFile);
-    Pixel[][] negPixels = negImg.getPixels2D();
-
-    /* to be implemented */
-    for (Pixel[] pixel: negPixels){
-       for (Pixel p: pixel){
-            int red = p.getRed();
-            int green = p.getGreen();
-            int blue = p.getBlue();
-            p.setRed(225-red);
-            p.setGreen(225-green);
-            p.setBlue(225-blue);
-
-        }
-    }
-    //negImg.explore();
-
-    // Image #3 Using the original image and pixels, create a grayscale version of the image
-    Picture grayscaleImg = new Picture(pictureFile);
-    Pixel[][] grayscalePixels = grayscaleImg.getPixels2D();
-
-    /* to be implemented */
-    for (Pixel [] pixel: grayscalePixels){
-      for (Pixel p: pixel){
-        int red = p.getRed();
-        int green = p.getGreen();
-        int blue = p.getBlue();
-
-        int avg = (red+green+blue)/3;
-
-        p.setRed(avg);
-        p.setGreen(avg);
-        p.setBlue(avg);
+        String pictureFile = "lib/beach.jpg";
+        Picture origImg = new Picture(pictureFile);
+        Pixel[][] origP = origImg.getPixels2D();
+        int origWidth = origImg.getWidth();   // 640
+        int origHeight = origImg.getHeight(); // 480
         
-      }
-    }
+        System.out.println("Original pixel color: " + origP[0][0].getColor());
+        System.out.println("Original: width=" + origWidth + ", height=" + origHeight);
+        origImg.explore();
 
-    //grayscaleImg.explore();
+        // --- Image #1: Recolor ---
+        Picture recoloredImg = new Picture(pictureFile);
+        Pixel[][] recolorP = recoloredImg.getPixels2D();
+        for (int r = 0; r < origHeight; r++) {
+            for (int c = 0; c < origWidth; c++) {
+                Color col = recolorP[r][c].getColor();
+                int newRed = Math.min(255, col.getRed() + 50);
+                recolorP[r][c].setColor(new Color(newRed, col.getGreen(), col.getBlue()));
+            }
+        }
+        System.out.println("\nImage #1: Recolored (Red +50)");
+        recoloredImg.explore();
 
-    // Image #4 Using the original image and pixels, rotate it 180 degrees
-    Picture upsidedownImage = new Picture(pictureFile);
-    Pixel[][] upsideDownPixels = upsidedownImage.getPixels2D();
+        // --- Image #2: Negative ---
+        Picture negImg = new Picture(pictureFile);
+        Pixel[][] negP = negImg.getPixels2D();
+        for (int r = 0; r < origHeight; r++) {
+            for (int c = 0; c < origWidth; c++) {
+                negP[r][c].setRed(255 - negP[r][c].getRed());
+                negP[r][c].setGreen(255 - negP[r][c].getGreen());
+                negP[r][c].setBlue(255 - negP[r][c].getBlue());
+            }
+        }
+        System.out.println("\nImage #2: Negative");
+        negImg.explore();
 
-    /* to be implemented */
+        // --- Image #3: Grayscale ---
+        Picture grayscaleImg = new Picture(pictureFile);
+        Pixel[][] grayP = grayscaleImg.getPixels2D();
+        for (int r = 0; r < origHeight; r++) {
+            for (int c = 0; c < origWidth; c++) {
+                int avg = (grayP[r][c].getRed() + grayP[r][c].getGreen() + grayP[r][c].getBlue()) / 3;
+                grayP[r][c].setColor(new Color(avg, avg, avg));
+            }
+        }
+        System.out.println("\nImage #3: Grayscale");
+        grayscaleImg.explore();
 
-    // Image #5 Using the original image and pixels, rotate image 90
-    Picture rotateImg = new Picture(pictureFile);
-    Pixel[][] rotatePixels = rotateImg.getPixels2D();
+        // --- Image #4: Rotate 180 ---
+        Picture rot180Img = new Picture(origHeight, origWidth);
+        Pixel[][] rot180P = rot180Img.getPixels2D();
+        
+        for (int r = 0; r < origHeight; r++) {
+            for (int c = 0; c < origWidth; c++) {
+                int newR = origHeight - 1 - r;
+                int newC = origWidth - 1 - c;
+                rot180P[newR][newC].setColor(origP[r][c].getColor());
+            }
+        }
+        System.out.println("\nImage #4: Rotated 180°");
+        rot180Img.explore();
 
-    /* to be implemented */
+        // --- Image #5: Rotate 90 CCW (Counter-Clockwise) ---
+        Picture rot90CCW = new Picture(origWidth, origHeight);
+        Pixel[][] ccwP = rot90CCW.getPixels2D();
+        
+        for (int r = 0; r < origHeight; r++) {
+            for (int c = 0; c < origWidth; c++) {
+                int finalR = origWidth - 1 - c;
+                int finalC = r;
+                ccwP[finalR][finalC].setColor(origP[r][c].getColor());
+            }
+        }
+        System.out.println("\nImage #5: Rotated 90° Counter-Clockwise");
+        rot90CCW.explore();
 
-    // Image #6 Using the original image and pixels, rotate image -90
-    Picture rotateImg2 = new Picture(pictureFile);
-    Pixel[][] rotatePixels2 = rotateImg2.getPixels2D();
+        // --- Image #6: Rotate 90 CW (Clockwise) ---
+        Picture rot90CW = new Picture(origWidth, origHeight);
+        Pixel[][] cwP = rot90CW.getPixels2D();
 
-    /* to be implemented */
+        for (int r = 0; r < origHeight; r++) {
+            for (int c = 0; c < origWidth; c++) {
+                int finalR = c;
+                int finalC = origHeight - 1 - r;
+                cwP[finalR][finalC].setColor(origP[r][c].getColor());
+            }
+        }
+        System.out.println("\nImage #6: Rotated 90° Clockwise");
+        rot90CW.explore();
+
+        System.out.println("\n✓ All image transformations complete!");
 
 
+        
     // Final Image: Add a small image to a larger one
     /* 1. create new image object using a dif image from lib 2
        2.  */
@@ -110,7 +113,5 @@ public class ImageApp
         { 9, 10, 11, 12 },
         { 13, 14, 15, 16 } };
     int[][] test2 = new int[4][4];
-
-
-  }
+    }
 }
