@@ -133,5 +133,30 @@ public class ImageApp {
         rot90CW.explore();
 
         System.out.println("\n✓ All image transformations complete!");
+
+
+        Picture largeImg = new Picture(pictureFile);
+    Picture smallImg = new Picture("lib2/balloon.png");
+
+    Pixel[][] largePixels = largeImg.getPixels2D();
+    Pixel[][] smallPixels = smallImg.getPixels2D();
+
+    int startRow = 70;
+    int startCol = 220;
+
+    for (int r = 0; r < smallPixels.length; r++) {
+    for (int c = 0; c < smallPixels[0].length; c++) {
+        if (startRow + r < largePixels.length && startCol + c < largePixels[0].length) {
+            Pixel smallPixel = smallPixels[r][c];
+            Pixel largePixel = largePixels[startRow + r][startCol + c];
+            
+            if (smallPixel.getRed() + smallPixel.getGreen() + smallPixel.getBlue() < 750) { // Overlays pixel if it's not white (removes white background).
+                largePixel.setColor(smallPixel.getColor());
+            }
+        }
+    }
+}
+        largeImg.explore();
+
     }
 }
