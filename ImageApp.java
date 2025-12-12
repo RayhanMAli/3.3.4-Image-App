@@ -10,8 +10,6 @@ public class ImageApp {
         int origWidth = origImg.getWidth();   // 640
         int origHeight = origImg.getHeight(); // 480
         
-        System.out.println("Original pixel color: " + origP[0][0].getColor());
-        System.out.println("Original: width=" + origWidth + ", height=" + origHeight);
         origImg.explore();
 
         // --- Image #1: Recolor ---
@@ -24,7 +22,6 @@ public class ImageApp {
                 recolorP[r][c].setColor(new Color(newRed, col.getGreen(), col.getBlue()));
             }
         }
-        System.out.println("\nImage #1: Recolored (Red +50)");
         recoloredImg.explore();
 
         // --- Image #2: Negative ---
@@ -37,7 +34,6 @@ public class ImageApp {
                 negP[r][c].setBlue(255 - negP[r][c].getBlue());
             }
         }
-        System.out.println("\nImage #2: Negative");
         negImg.explore();
 
         // --- Image #3: Grayscale ---
@@ -49,7 +45,6 @@ public class ImageApp {
                 grayP[r][c].setColor(new Color(avg, avg, avg));
             }
         }
-        System.out.println("\nImage #3: Grayscale");
         grayscaleImg.explore();
 
         // --- Image #4: Rotate 180 using Matrix Multiplication ---
@@ -61,12 +56,15 @@ public class ImageApp {
         double centerX = (origWidth - 1) / 2.0;
         double centerY = (origHeight - 1) / 2.0;
         
-        // Iterate through destination pixels and find source using inverse transformation
+        
         for (int destR = 0; destR < origHeight; destR++) {
             for (int destC = 0; destC < origWidth; destC++) {
-                // Convert dest position to centered coordinates (relative to center)
+                // Convert 
+                
                 Vector1by2 destCentered = new Vector1by2(destC - centerX, destR - centerY);
-                // Apply inverse 180 rotation (which is the same as forward 180 rotation)
+
+                // multiplication
+
                 Vector1by2 srcCentered = Matrix2by2.multiply(destCentered, mat180);
                 // Convert back to array indices
                 int srcR = (int)Math.round(srcCentered.getY() + centerY);
@@ -78,7 +76,6 @@ public class ImageApp {
                 }
             }
         }
-        System.out.println("\nImage #4: Rotated 180° (matrix multiplication)");
         rot180Img.explore();
 
         // --- Image #5: Rotate 90 CCW using Matrix Multiplication ---
@@ -94,6 +91,7 @@ public class ImageApp {
             for (int destC = 0; destC < newWidth; destC++) {
                 // Convert to centered coords for new image
                 Vector1by2 destCentered = new Vector1by2(destC - (newWidth - 1) / 2.0, destR - (newHeight - 1) / 2.0);
+                
                 // Apply inverse rotation (90 CW) to find source
                 Vector1by2 srcCentered = Matrix2by2.multiply(destCentered, matCCWInv);
                 // Convert to source array indices
@@ -105,13 +103,11 @@ public class ImageApp {
                 }
             }
         }
-        System.out.println("\nImage #5: Rotated 90° CCW (matrix multiplication)");
         rot90CCW.explore();
 
         // --- Image #6: Rotate 90 CW using Matrix Multiplication ---
         Picture rot90CW = new Picture(origWidth, origHeight);
         Pixel[][] cwP = rot90CW.getPixels2D();
-        // Matrix2by2 matCW = Matrix2by2.getInv90CCWMatrix(); // Forward: 90 CW  
         Matrix2by2 matCWInv = Matrix2by2.getInv90CWMatrix(); // Inverse: 90 CCW
         
         for (int destR = 0; destR < newHeight; destR++) {
@@ -128,11 +124,10 @@ public class ImageApp {
                     cwP[destR][destC].setColor(origP[srcR][srcC].getColor());
                 }
             }
+            
         }
-        System.out.println("\nImage #6: Rotated 90° CW (matrix multiplication)");
         rot90CW.explore();
 
-        System.out.println("\n✓ All image transformations complete!");
 
 
         Picture largeImg = new Picture(pictureFile);
@@ -157,6 +152,8 @@ public class ImageApp {
     }
 }
         largeImg.explore();
+        
 
     }
+    
 }
