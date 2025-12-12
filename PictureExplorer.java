@@ -231,8 +231,8 @@ image pasting button
               
               Pixel[][] largePixels = ((SimplePicture)picture).getPixels2D();
               
-              int startRow = 70;
-              int startCol = 220;
+              int startRow = 50;
+              int startCol = 300;
 
               for (int r = 0; r < smallPixels.length; r++) {
                   for (int c = 0; c < smallPixels[0].length; c++) {
