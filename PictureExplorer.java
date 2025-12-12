@@ -228,7 +228,7 @@ image pasting button
           public void actionPerformed(ActionEvent e) {
               Picture smallImg = new Picture("lib2/balloon.png");
               Pixel[][] smallPixels = smallImg.getPixels2D();
-              // Cast to SimplePicture instead of Picture
+              
               Pixel[][] largePixels = ((SimplePicture)picture).getPixels2D();
               
               int startRow = 70;

@@ -145,7 +145,7 @@ public class ImageApp {
             Pixel smallPixel = smallPixels[r][c];
             Pixel largePixel = largePixels[startRow + r][startCol + c];
             
-            if (smallPixel.getRed() + smallPixel.getGreen() + smallPixel.getBlue() < 750) { // Overlays pixel if it's not white (removes white background).
+            if (smallPixel.getRed() + smallPixel.getGreen() + smallPixel.getBlue() < 750) { 
                 largePixel.setColor(smallPixel.getColor());
             }
         }
