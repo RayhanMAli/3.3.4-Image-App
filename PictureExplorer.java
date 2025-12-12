@@ -210,7 +210,7 @@ public class PictureExplorer implements MouseMotionListener, ActionListener, Mou
     createAndInitScrollingImage();
 
     // Create and add the modification buttons
-    createButtonPanel();
+    imagePasteButton();
     
     // show the picture in the frame at the size it needs to be
     pictureFrame.pack();
@@ -220,7 +220,7 @@ public class PictureExplorer implements MouseMotionListener, ActionListener, Mou
   /*
 image pasting button
    */
-  private void createButtonPanel()
+  private void imagePasteButton()
   {
       JPanel buttonPanel = new JPanel();
       JButton balloonButton = new JButton("Add A Balloon");
