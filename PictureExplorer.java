@@ -1,20 +1,18 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.*;
 import javax.swing.border.*;
+
 /**
  * Displays a picture and lets you explore the picture by displaying the row, column, red,
  * green, and blue values of the pixel at the cursor when you click a mouse button or
  * press and hold a mouse button while moving the cursor.  It also lets you zoom in or
  * out.  You can also type in a row and column value to see the color at that location.
- * 
- * Originally created for the Jython Environment for Students (JES). 
+ * * Originally created for the Jython Environment for Students (JES). 
  * Modified to work with DrJava by Barbara Ericson
  * Also modified to show row and columns by Barbara Ericson
- * 
- * @author Keith McDermottt, gte047w@cc.gatech.edu
+ * * @author Keith McDermottt, gte047w@cc.gatech.edu
  * @author Barb Ericson ericson@cc.gatech.edu
  */
 public class PictureExplorer implements MouseMotionListener, ActionListener, MouseListener
@@ -210,10 +208,50 @@ public class PictureExplorer implements MouseMotionListener, ActionListener, Mou
     
     //creates the scrollpane for the picture
     createAndInitScrollingImage();
+
+    // Create and add the modification buttons
+    createButtonPanel();
     
     // show the picture in the frame at the size it needs to be
     pictureFrame.pack();
     pictureFrame.setVisible(true);
+  }
+
+  /*
+image pasting button
+   */
+  private void createButtonPanel()
+  {
+      JPanel buttonPanel = new JPanel();
+      JButton balloonButton = new JButton("Add A Balloon");
+      balloonButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+              Picture smallImg = new Picture("lib2/balloon.png");
+              Pixel[][] smallPixels = smallImg.getPixels2D();
+              // Cast to SimplePicture instead of Picture
+              Pixel[][] largePixels = ((SimplePicture)picture).getPixels2D();
+              
+              int startRow = 70;
+              int startCol = 220;
+
+              for (int r = 0; r < smallPixels.length; r++) {
+                  for (int c = 0; c < smallPixels[0].length; c++) {
+                      if (startRow + r < largePixels.length && startCol + c < largePixels[0].length) {
+                          Pixel smallPixel = smallPixels[r][c];
+                          Pixel largePixel = largePixels[startRow + r][startCol + c];
+                          if (smallPixel.getRed() + smallPixel.getGreen() + smallPixel.getBlue() < 750) {
+                              largePixel.setColor(smallPixel.getColor());
+                          }
+                      }
+                  }
+              }
+              imageDisplay.repaint();
+          }
+      });
+
+      buttonPanel.add(balloonButton);
+
+      pictureFrame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
   }
   
   /**

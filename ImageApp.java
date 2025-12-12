@@ -130,7 +130,7 @@ public class ImageApp {
 
 
 
-        Picture largeImg = new Picture(pictureFile);
+    Picture largeImg = new Picture(pictureFile);
     Picture smallImg = new Picture("lib2/balloon.png");
 
     Pixel[][] largePixels = largeImg.getPixels2D();
